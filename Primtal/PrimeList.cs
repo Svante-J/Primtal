@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Primtal
@@ -7,11 +8,13 @@ namespace Primtal
     static class PrimeList
     {
         static List<int> _list;
+        static List<int> _uniqeList;
 
         static PrimeList()
         {
             // Allocate the list.
             _list = new List<int>();
+            //_uniqeList = new List<int>();
         }
 
         public static void Record(int value)
@@ -28,12 +31,13 @@ namespace Primtal
                 Console.WriteLine(value);
             }
         }
-        public static void Display2()
+        public static void SortAndDisplay()
         {
-            // Write out the results.
-            foreach (var value in _list)
+            List<int> uniqeLst = _list.Distinct().ToList();
+            uniqeLst.Sort();
+            foreach (var value in uniqeLst)
             {
-                Console.Write(" " + value + " ");
+                Console.WriteLine(value);
             }
         }
     }
