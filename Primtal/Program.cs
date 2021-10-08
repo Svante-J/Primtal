@@ -4,21 +4,24 @@ namespace Primtal
 {
     internal class Program
     {
-        private const string inputMsg = ("enter postitive number");
-        private static readonly string inputErrorMsg = ($" is not accepted\n {inputMsg}");
+        private const string inputMsg = ("enter postitive number or Q to quit");
+        private static readonly string inputErrorMsg = ($" is not accepted");
 
         private static void Main(string[] args)
         {
+            bool runProgram = true;
             bool isNotPrime = false;
-            // var calculateMe = 6;
-            while (true)
+            
+            while (runProgram)
             {
                 Console.WriteLine(inputMsg);
                 var input = Console.ReadLine();
                 bool success = int.TryParse(input, out int result);
+
                 if ("Q" == input.ToUpper())
                 {
-                    Console.WriteLine("nu skrev du q eller Q");
+                    Console.WriteLine("Hejdå");
+                    runProgram = false;
                 }
                 else if (success && result > 0)
                 {
@@ -30,43 +33,52 @@ namespace Primtal
                     success = false;
                 }
 
-                // kollar parsing, att värdet inte är ett för att sen testa om det är ett primtal
+                
                 if (success && result >= 2 && Primes.CalculatePrime(result))
                 {
-                    Console.WriteLine($"{result} is a prime number");
+                    Console.WriteLine($"{result} is a prime number and [added to list]");
                     PrimeList.Record(result);
-                    Console.ReadLine();
                     isNotPrime = false;
                 }
                 else if (success)
                 {
-                    Console.WriteLine($"{result} is not a prime");
+                    Console.WriteLine($"{result} is not a prime number");
                     Console.ReadLine();
                     isNotPrime = true;
                 }
-                if (isNotPrime)
+                if (isNotPrime && success)
                 {
-                    var foundPrime = Primes.CalculateNextPrime(result);
-                    if (foundPrime == 1)
-                    { foundPrime++;
-                        PrimeList.Record(foundPrime);
-                        Console.WriteLine($"but {foundPrime} is and have been added to the list!");
-                    }
-                    else
+                    Console.WriteLine("Would yoy like the computer to add a prime automagik?");
+                    Console.WriteLine("[Y] for yes [Anything else] for no");
+                    var addDecision = Console.ReadLine();
+                    
+                    if (string.Equals(addDecision, "Y", StringComparison.OrdinalIgnoreCase))
                     {
-                        PrimeList.Record(foundPrime);
-                        Console.WriteLine($"but {foundPrime} is and have been added to the list!");
+                        var foundPrime = Primes.CalculateNextPrime(PrimeList.HighestPrimeInList());
+                        
+                        if (foundPrime == 1)
+                        {
+                            foundPrime++;
+                            PrimeList.Record(foundPrime);
+                            Console.WriteLine($"but {foundPrime} is and have been added to the list!");
+                        }
+                        else
+                        {
+                            PrimeList.Record(foundPrime);
+                            Console.WriteLine($"but {foundPrime} is and have been added to the list!");
+                        }
                     }
+                    
+                    
                 }
 
                 Console.WriteLine("här kommer listan");
-
-                //todo: menyer
-                //söka nästa primtal utifrån högsta värde i listan
-                // PrimeList.Display();
-
                 PrimeList.SortAndDisplay();
                 Console.ReadLine();
+                
+                //todo: menyer
+                //todo: Kommentera
+                
             }
         }
     }

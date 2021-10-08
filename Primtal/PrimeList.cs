@@ -1,36 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Primtal
 {
-    static class PrimeList
+    internal static class PrimeList
     {
-        static List<int> _list;
-        static List<int> _uniqeList;
+        private static List<int> _list;
+        private static List<int> uniqeList;
 
         static PrimeList()
         {
             // Allocate the list.
             _list = new List<int>();
-            //_uniqeList = new List<int>();
         }
-
+        /// <summary>
+        /// Sparar värdet i listan
+        /// </summary>
+        /// <param name="value"></param>
         public static void Record(int value)
         {
-            // Record this value in the list.
+            
             _list.Add(value);
         }
-
-        public static void Display()
+        /// <summary>
+        /// Ger högsta värdet i listan som int
+        /// </summary>
+        /// <returns></returns>
+        public static int HighestPrimeInList()
         {
-            // Write out the results.
-            foreach (var value in _list)
+            if (_list.Count != 0)
             {
-                Console.WriteLine(value);
+                _list.Sort();
+                return _list.Last() + 1;
             }
+            return 1;
         }
+        /// <summary>
+        /// Kopierar orginallistan sorterar, tar bort dubletter och "renderar"
+        /// </summary>
         public static void SortAndDisplay()
         {
             List<int> uniqeLst = _list.Distinct().ToList();
@@ -40,10 +48,6 @@ namespace Primtal
                 Console.WriteLine(value);
             }
         }
-        public static void Sort()
-        {
-            List<int> uniqeLst = _list.Distinct().ToList();
-            uniqeLst.Sort();
-        }
+
     }
 }
