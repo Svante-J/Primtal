@@ -40,5 +40,10 @@ namespace Primtal
                 Console.WriteLine(value);
             }
         }
+        public static void Sort()
+        {
+            List<int> uniqeLst = _list.Distinct().ToList();
+            uniqeLst.Sort();
+        }
     }
 }

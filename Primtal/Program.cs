@@ -16,7 +16,11 @@ namespace Primtal
                 Console.WriteLine(inputMsg);
                 var input = Console.ReadLine();
                 bool success = int.TryParse(input, out int result);
-                if (success && result > 0)
+                if ("Q" == input.ToUpper())
+                {
+                    Console.WriteLine("nu skrev du q eller Q");
+                }
+                else if (success && result > 0)
                 {
                     Console.WriteLine($"converted '{input}' to {result}");
                 }
@@ -58,7 +62,7 @@ namespace Primtal
                 Console.WriteLine("här kommer listan");
 
                 //todo: menyer
-                //söka nästa primtal
+                //söka nästa primtal utifrån högsta värde i listan
                 // PrimeList.Display();
 
                 PrimeList.SortAndDisplay();
