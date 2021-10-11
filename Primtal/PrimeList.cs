@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Primtal
@@ -7,7 +8,7 @@ namespace Primtal
     internal static class PrimeList
     {
         private static List<int> _list;
-        private static List<int> uniqeList;
+        
 
         static PrimeList()
         {
@@ -20,7 +21,6 @@ namespace Primtal
         /// <param name="value"></param>
         public static void Record(int value)
         {
-            
             _list.Add(value);
         }
         /// <summary>
@@ -29,12 +29,13 @@ namespace Primtal
         /// <returns></returns>
         public static int HighestPrimeInList()
         {
+            
             if (_list.Count != 0)
             {
                 _list.Sort();
                 return _list.Last() + 1;
             }
-            return 1;
+            return 1;// Finns inget i listan skickar jag vidare 1
         }
         /// <summary>
         /// Kopierar orginallistan sorterar, tar bort dubletter och "renderar"

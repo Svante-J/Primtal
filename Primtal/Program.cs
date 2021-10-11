@@ -4,36 +4,19 @@ namespace Primtal
 {
     internal class Program
     {
-        private const string inputMsg = ("enter postitive number or Q to quit");
-        private static readonly string inputErrorMsg = ($" is not accepted");
-
         private static void Main(string[] args)
         {
             bool runProgram = true;
             bool isNotPrime = false;
-            
+
             while (runProgram)
             {
-                Console.WriteLine(inputMsg);
-                var input = Console.ReadLine();
-                bool success = int.TryParse(input, out int result);
-
-                if ("Q" == input.ToUpper())
-                {
-                    Console.WriteLine("Hejdå");
-                    runProgram = false;
-                }
-                else if (success && result > 0)
-                {
-                    Console.WriteLine($"converted '{input}' to {result}");
-                }
-                else
-                {
-                    Console.WriteLine($" '{input}'{inputErrorMsg}");
-                    success = false;
-                }
-
                 
+                
+                var success = UserInput(out var result, ref runProgram);
+
+                #region PrimeCalculations
+
                 if (success && result >= 2 && Primes.CalculatePrime(result))
                 {
                     Console.WriteLine($"{result} is a prime number and [added to list]");
@@ -43,19 +26,20 @@ namespace Primtal
                 else if (success)
                 {
                     Console.WriteLine($"{result} is not a prime number");
-                    Console.ReadLine();
                     isNotPrime = true;
                 }
                 if (isNotPrime && success)
                 {
                     Console.WriteLine("Would yoy like the computer to add a prime automagik?");
                     Console.WriteLine("[Y] for yes [Anything else] for no");
+                    Console.Write(">");
                     var addDecision = Console.ReadLine();
-                    
+
                     if (string.Equals(addDecision, "Y", StringComparison.OrdinalIgnoreCase))
                     {
                         var foundPrime = Primes.CalculateNextPrime(PrimeList.HighestPrimeInList());
-                        
+
+                        // Calculate prime hanterar 1or som primtal
                         if (foundPrime == 1)
                         {
                             foundPrime++;
@@ -68,18 +52,46 @@ namespace Primtal
                             Console.WriteLine($"but {foundPrime} is and have been added to the list!");
                         }
                     }
-                    
-                    
                 }
 
-                Console.WriteLine("här kommer listan");
+                #endregion PrimeCalculations
+                
+                Console.WriteLine("Your Primes");
                 PrimeList.SortAndDisplay();
                 Console.ReadLine();
-                
-                //todo: menyer
-                //todo: Kommentera
-                
+
             }
+        }
+
+
+        /// <summary>
+        /// Hanterar input från användaren
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="runProgram"></param>
+        /// <returns></returns>
+        private static bool UserInput(out int result, ref bool runProgram)
+        {
+            Console.WriteLine("enter positive number or Q to quit");
+            var input = Console.ReadLine();
+            var success = int.TryParse(input, out result);
+
+            if (string.Equals("Q", input, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine("Bye Bye");
+                runProgram = false;
+            }
+            else if (success && result > 0)
+            {
+                Console.WriteLine($"converted '{input}' to {result}");
+            }
+            else
+            {
+                Console.WriteLine($" '{input}' is not accepted");
+                success = false;
+            }
+
+            return success;
         }
     }
 }
