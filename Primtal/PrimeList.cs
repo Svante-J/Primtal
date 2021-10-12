@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Primtal
 {
+    // Jag valde Lista som datastruktur då den hela tiden skall uppdateras/ändras
     internal static class PrimeList
     {
         private static List<int> _list;
